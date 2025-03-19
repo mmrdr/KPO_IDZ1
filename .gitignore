@@ -1,0 +1,44 @@
+*.vs/
+*.vscode/
+*.idea/
+/.vs/
+FinanceTrackerApp.Domain/bin/
+FinanceTrackerApp.Domain/obj/
+FinanceTrakcerApp/bin/
+FinanceTrackerApp/obj/
+/out/
+/.vsconfig
+
+# Build artifacts
+*.dll
+*.exe
+*.so
+*.dylib
+*.pdb
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+/log/
+
+# NuGet
+*.nupkg
+/packages/
+project.lock.json
+
+# Rider
+.idea/
+*.sln.iml
+
+# Test results
+/TestResults/
+/coverage/
+
+# Secrets
+secrets.json
+appsettings.Development.json

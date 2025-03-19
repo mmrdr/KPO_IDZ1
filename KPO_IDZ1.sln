@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTrackerApp", "FinanceTrackerApp\FinanceTrackerApp.csproj", "{1C3A0B54-8900-46EF-BCBA-AF4CD60A978F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTrackerApp.Domain", "FinanceTrackerApp.Domain\FinanceTrackerApp.Domain.csproj", "{5193EB94-21D7-4475-B684-06688E8BB168}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C3A0B54-8900-46EF-BCBA-AF4CD60A978F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C3A0B54-8900-46EF-BCBA-AF4CD60A978F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C3A0B54-8900-46EF-BCBA-AF4CD60A978F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C3A0B54-8900-46EF-BCBA-AF4CD60A978F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5193EB94-21D7-4475-B684-06688E8BB168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5193EB94-21D7-4475-B684-06688E8BB168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5193EB94-21D7-4475-B684-06688E8BB168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5193EB94-21D7-4475-B684-06688E8BB168}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
