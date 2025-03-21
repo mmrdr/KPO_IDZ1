@@ -14,11 +14,13 @@ public class Analytics: IAnalytics
     
     public decimal CalculateIncomeExpenseDifference(DateTime start, DateTime end)
     {
+        var startDate = start.Date;
+        var endDate = end.Date.AddDays(1).AddSeconds(-1);
         var incomes = _context.Operations
-            .Where(o => o.Type == OperationType.Income && o.Date >= start && o.Date <= end)
+            .Where(o => o.Type == OperationType.Income && o.Date >= startDate && o.Date <= endDate)
             .Sum(o => o.Amount);
         var expenses = _context.Operations
-            .Where(o => o.Type == OperationType.Expense && o.Date >= start && o.Date <= end)
+            .Where(o => o.Type == OperationType.Expense && o.Date >= startDate && o.Date <= endDate)
             .Sum(o => o.Amount);
         return incomes - expenses;
     }
