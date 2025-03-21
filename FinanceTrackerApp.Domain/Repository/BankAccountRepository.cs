@@ -1,54 +1,54 @@
 using System.Collections;
+using FinanceTrackerApp.Domain.Db;
 using FinanceTrackerApp.Domain.Entities;
 using FinanceTrackerApp.Domain.Repository;
 
-namespace FinanceTrackerApp.Domain.Repositories;
+namespace FinanceTrackerApp.Domain.Repository;
 
 public class BankAccountRepository: IBankAccountRepository
 {
-    private readonly Dictionary<Guid, BankAccount> _bankAccounts = new Dictionary<Guid, BankAccount>();
-    
+    private readonly FinanceAppDbContext _context;
+
+    public BankAccountRepository(FinanceAppDbContext context)
+    {
+        _context = context;
+    }
     public void Add(BankAccount entity)
     {
-        if (!_bankAccounts.TryAdd(entity.Id, entity))
+        if (_context.BankAccounts.Find(entity.Id) != null)
         {
-            throw new ArgumentException("Bank account already exists.");
+            Update(entity);
         }
+        else
+        {
+            _context.BankAccounts.Add(entity);
+        }
+        _context.SaveChanges();
     }
 
     public void Update(BankAccount entity)
     {
-        if (!_bankAccounts.ContainsKey(entity.Id))
-        {
-            throw new ArgumentException("Bank account does not exist.");
-        }
-        _bankAccounts[entity.Id] = entity;
+        _context.BankAccounts.Update(entity);
+        _context.SaveChanges();
     }
 
     public void Delete(Guid id)
     {
-        if (!_bankAccounts.ContainsKey(id))
+        var acc = _context.BankAccounts.Find(id);
+        if (acc != null)
         {
-            throw new ArgumentException("Bank account does not exist.");
+            _context.BankAccounts.Remove(acc);
+            _context.SaveChanges();
         }
-        _bankAccounts.Remove(id);
     }
 
-    public BankAccount GetById(Guid id)
+    public BankAccount? GetById(Guid id)
     {
-        if (!_bankAccounts.TryGetValue(id, out var bankAccount))
-        {
-            throw new ArgumentException("Bank account does not exist.");
-        }
-        return bankAccount;
+        return _context.BankAccounts.Find(id);
     }
 
     public IEnumerable<BankAccount> GetAll()
     {
-        if (!_bankAccounts.Any())
-        {
-            throw new ArgumentException("Bank account is empty.");
-        }
-        return _bankAccounts.Values;
+        return _context.BankAccounts.ToList();
     }
 }

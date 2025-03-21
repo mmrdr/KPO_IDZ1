@@ -1,6 +1,6 @@
 namespace FinanceTrackerApp.Domain.Patterns.Visitor;
 
-public class IVisitorAction
+public interface IVisitorAction
 {
-    
+    public string GetResult();
 }

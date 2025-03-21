@@ -28,6 +28,19 @@ public class OperationFacade: IOperationFacade
         return operation;
     }
 
+    public void CreateFromFile(Operation operation)
+    {
+        var e = _operationRepository.GetById(operation.Id);
+        if (e != null)
+        {
+            _operationRepository.Update(e);
+        }
+        else
+        {
+            _operationRepository.Add(operation);
+        }
+    }
+
     public IEnumerable<Operation> GetAll()
     {
         return _operationRepository.GetAll();

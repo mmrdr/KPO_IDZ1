@@ -1,6 +1,8 @@
+using FinanceTrackerApp.Domain.Entities;
+
 namespace FinanceTrackerApp.Domain.Patterns.Factory;
 
-public class IBankAccountFactory
+public interface IBankAccountFactory
 {
-    
+    public BankAccount Create(string name, decimal balance);
 }

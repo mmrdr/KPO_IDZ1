@@ -1,6 +1,7 @@
 namespace FinanceTrackerApp.Domain.Patterns.Facade.DataTransferFacade;
 
-public class IDataTransferFacade
+public interface IDataTransferFacade
 {
-    
+    public void ExportData(string filePath);
+    public void ImportData(string filePath);
 }

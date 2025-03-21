@@ -1,52 +1,53 @@
+using FinanceTrackerApp.Domain.Db;
 using FinanceTrackerApp.Domain.Entities;
 using FinanceTrackerApp.Domain.Repository;
 
-namespace FinanceTrackerApp.Domain.Repositories;
+namespace FinanceTrackerApp.Domain.Repository;
 
 public class CategoryRepository: ICategoryRepository
 {
-    private readonly Dictionary<Guid, Category> _categories = new Dictionary<Guid, Category>();
+    private readonly FinanceAppDbContext _context;
+
+    public CategoryRepository(FinanceAppDbContext context)
+    {
+        _context = context;
+    }
     public void Add(Category entity)
     {
-        if (!_categories.TryAdd(entity.Id, entity))
+        if (_context.Categories.Find(entity.Id) != null)
         {
-            throw new ArgumentException("Category already exists");
+            Update(entity);
         }
+        else
+        {
+            _context.Categories.Add(entity);
+        }
+        _context.SaveChanges();
     }
 
     public void Update(Category entity)
     {
-        if (!_categories.ContainsKey(entity.Id))
-        {
-            throw new ArgumentException("Category does not exist");
-        }
-        _categories[entity.Id] = entity; 
+        _context.Categories.Update(entity);
+        _context.SaveChanges();
     }
 
     public void Delete(Guid id)
     {
-        if (!_categories.ContainsKey(id))
+        var entity = _context.Categories.Find(id);
+        if (entity != null)
         {
-            throw new ArgumentException("Category does not exist");
+            _context.Categories.Remove(entity);
+            _context.SaveChanges();
         }
-        _categories.Remove(id);
     }
 
-    public Category GetById(Guid id)
+    public Category? GetById(Guid id)
     {
-        if (!_categories.TryGetValue(id, out var entity))
-        {
-            throw new ArgumentException("Category does not exist");
-        }
-        return entity;
+        return _context.Categories.Find(id);
     }
 
     public IEnumerable<Category> GetAll()
     {
-        if (!_categories.Any())
-        {
-            throw new ArgumentException("No categories found");
-        }
-        return _categories.Values;
+        return _context.Categories.ToList();
     }
 }

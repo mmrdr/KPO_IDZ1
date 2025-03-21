@@ -1,7 +1,7 @@
 using FinanceTrackerApp.Domain.Db;
 using FinanceTrackerApp.Domain.Entities;
 
-namespace FinanceTrackerApp.Domain.Service;
+namespace FinanceTrackerApp.Domain.AnalyticService;
 
 public class Analytics: IAnalytics
 {

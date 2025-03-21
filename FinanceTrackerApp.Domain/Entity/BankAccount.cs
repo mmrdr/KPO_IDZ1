@@ -15,6 +15,11 @@ public class BankAccount: IEntityVisitable, IStorable
         Balance = balance;
     }
 
+    public void ChangeName(string newName)
+    {
+        Name = newName;
+    }
+
     public void IncreaseBalance(decimal amount)
     {
         Balance += amount;

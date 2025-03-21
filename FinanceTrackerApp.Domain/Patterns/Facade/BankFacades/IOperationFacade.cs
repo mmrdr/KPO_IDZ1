@@ -7,5 +7,6 @@ public interface IOperationFacade: IFacade<Operation>
 {
     Operation CreateOperationById(OperationType type, Guid bankAccountId, decimal amount, DateTime date, string? description,
         Guid? categoryId);
+    void CreateFromFile(Operation operation);
 
 }

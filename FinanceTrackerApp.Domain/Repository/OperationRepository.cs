@@ -1,53 +1,54 @@
+using FinanceTrackerApp.Domain.Db;
 using FinanceTrackerApp.Domain.Entities;
 using FinanceTrackerApp.Domain.Repository;
 
-namespace FinanceTrackerApp.Domain.Repositories;
+namespace FinanceTrackerApp.Domain.Repository;
 
 public class OperationRepository: IOperationRepository
 {
-    private readonly Dictionary<Guid, Operation> _operations = new Dictionary<Guid, Operation>();
+    private readonly FinanceAppDbContext _context;
+
+    public OperationRepository(FinanceAppDbContext context)
+    {
+        _context = context;
+    }
     public void Add(Operation entity)
     {
-        if (!_operations.TryAdd(entity.Id, entity))
+        if (_context.Operations.Find(entity.Id) != null)
         {
-            throw new ArgumentException("An operation with the same id already exists.");
+            Update(entity);
         }
+        else
+        {
+            _context.Operations.Add(entity);
+        }
+
+        _context.SaveChanges();
     }
 
     public void Update(Operation entity)
     {
-        if (!_operations.ContainsKey(entity.Id))
-        {
-            throw new ArgumentException("An operation with the same id does not exist.");
-        }
-        _operations[entity.Id] = entity;
+        _context.Operations.Update(entity);
+        _context.SaveChanges();
     }
 
     public void Delete(Guid id)
     {
-        if (!_operations.ContainsKey(id))
+        var operation = _context.Operations.Find(id);
+        if (operation != null)
         {
-            throw new ArgumentException("An operation with the same id does not exist.");
-        } 
-        _operations.Remove(id);
+            _context.Operations.Remove(operation);
+            _context.SaveChanges();
+        }
     }
 
-    public Operation GetById(Guid id)
+    public Operation? GetById(Guid id)
     {
-        if (!_operations.TryGetValue(id, out var entity))
-        {
-            throw new ArgumentException("An operation with the same id does not exist.");
-        }
-
-        return entity;
+        return _context.Operations.Find(id);
     }
 
     public IEnumerable<Operation> GetAll()
     {
-        if (!_operations.Any())
-        {
-            throw new ArgumentException("No operations exist.");
-        }
-        return _operations.Values;
+        return _context.Operations.ToList();
     }
 }

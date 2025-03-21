@@ -14,6 +14,11 @@ public class Category: IEntityVisitable, IStorable
         Type = type;
         Name = name;
     }
+
+    public void ChangeName(string newName)
+    {
+        Name = newName;
+    }
     
     public void Accept(IEntityVisitor visitor)
     {

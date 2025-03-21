@@ -22,6 +22,19 @@ public class CategoryFacade: ICategoryFacade
         return category;
     }
 
+    public void CreateFromFile(Category category)
+    {
+        var e = _categoryRepository.GetById(category.Id);
+        if (e != null)
+        {
+            _categoryRepository.Update(e);
+        }
+        else
+        {
+            _categoryRepository.Add(category);
+        }
+    }
+
     public void ChangeName(Guid id, string newName)
     {
         var category = _categoryRepository.GetById(id);

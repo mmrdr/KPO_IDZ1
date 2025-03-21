@@ -1,6 +1,8 @@
+using FinanceTrackerApp.Domain.Entities;
+
 namespace FinanceTrackerApp.Domain.Patterns.Factory;
 
-public class ICategoryFactory
+public interface ICategoryFactory
 {
-    
+    public Category Create(OperationType type, string name);
 }

@@ -1,3 +1,4 @@
+using FinanceTrackerApp.Domain.Abstractions.Repository;
 using FinanceTrackerApp.Domain.Entities;
 using FinanceTrackerApp.Domain.Patterns.Factory;
 using FinanceTrackerApp.Domain.Repository;
@@ -20,6 +21,19 @@ public class BankAccountFacade: IBankAccountFacade
         BankAccount bankAccount = _factory.Create(name, balance);
         _bankAccountRepository.Add(bankAccount);
         return bankAccount;
+    }
+
+    public void CreateFromFile(BankAccount account)
+    {
+        var e = _bankAccountRepository.GetById(account.Id);
+        if (e != null)
+        {
+            _bankAccountRepository.Update(e);
+        }
+        else
+        {
+            _bankAccountRepository.Add(account);
+        }
     }
 
     public void ChangeName(Guid id, string name)
