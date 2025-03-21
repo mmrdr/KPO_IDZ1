@@ -12,12 +12,12 @@ public class Operation: IEntityVisitable, IStorable
     public string? Description { get; private set; }
     public Guid? CategoryId { get; private set; }
 
-    public Operation(OperationType type, Guid? bankAccount, decimal amount, DateTime date,
+    public Operation(OperationType type, Guid? bankAccountId, decimal amount, DateTime date,
         string? description = null, Guid? categoryId = null)
     {
         Id = Guid.NewGuid();
         Type = type;
-        BankAccountId = bankAccount;
+        BankAccountId = bankAccountId;
         Amount = amount;
         Date = date;
         Description = description;

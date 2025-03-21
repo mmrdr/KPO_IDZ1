@@ -13,8 +13,10 @@ public class FinanceAppDbContext: DbContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var connectionString = "Host=localhost;Port=5432;Database=financedb;Username=postgres;Password=secret";
-        optionsBuilder.UseNpgsql(connectionString);
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=financedb;Username=postgres;Password=secret");
+        }
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,8 +43,7 @@ public class FinanceAppDbContext: DbContext
             entity.Property(e => e.Amount).HasColumnType("decimal(18,2)");
             entity.Property(e => e.Date).IsRequired();
             entity.Property(e => e.Description).HasMaxLength(255);
-
-            // Связи
+            
             entity.HasOne<BankAccount>()
                 .WithMany()
                 .HasForeignKey(e => e.BankAccountId)

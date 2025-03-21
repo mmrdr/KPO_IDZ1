@@ -9,13 +9,8 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<FinanceApp
 {
     public FinanceAppDbContext CreateDbContext(string[] args)
     {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
-        var connectionString = configuration.GetConnectionString("AmazingConnectionString");
         var optionsBuilder = new DbContextOptionsBuilder<FinanceAppDbContext>();
-        optionsBuilder.UseNpgsql(connectionString);
+        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=financedb;Username=postgres;Password=secret");
         return new FinanceAppDbContext(optionsBuilder.Options);
     }
 }
