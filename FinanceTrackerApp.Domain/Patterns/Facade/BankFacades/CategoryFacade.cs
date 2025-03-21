@@ -24,12 +24,12 @@ public class CategoryFacade: ICategoryFacade
 
     public void CreateFromFile(Category category)
     {
-        var e = _categoryRepository.GetById(category.Id);
-        if (e != null)
+        try
         {
+            var e = _categoryRepository.GetById(category.Id);
             _categoryRepository.Update(e);
         }
-        else
+        catch (Exception e)
         {
             _categoryRepository.Add(category);
         }
@@ -37,13 +37,16 @@ public class CategoryFacade: ICategoryFacade
 
     public void ChangeName(Guid id, string newName)
     {
-        var category = _categoryRepository.GetById(id);
-        if (category == null)
+        try
         {
-            throw new ArgumentException("Category not found");
+            var category = _categoryRepository.GetById(id);
+            category.ChangeName(newName);
+            _categoryRepository.Update(category);
         }
-        category.ChangeName(newName);
-        _categoryRepository.Update(category);
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 
     public IEnumerable<Category> GetAll()
@@ -53,11 +56,27 @@ public class CategoryFacade: ICategoryFacade
 
     public Category? GetById(Guid id)
     {
-        return _categoryRepository.GetById(id);
+        try
+        {
+            return _categoryRepository.GetById(id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return null;
+        }
+        
     }
 
     public void Delete(Guid id)
     {
-        _categoryRepository.Delete(id);
+        try
+        {
+            _categoryRepository.Delete(id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 }

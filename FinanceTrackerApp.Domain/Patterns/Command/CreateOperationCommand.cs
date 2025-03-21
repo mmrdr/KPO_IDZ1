@@ -32,5 +32,5 @@ public class CreateOperationCommand: ICommand
         _description = description;
         _categoryId = categoryId;        
     }
-    public void Execute() => _operationFacade.CreateOperationById(_operationType, _bankAccountId, _amount, _date, _description, _categoryId);
+    public void Execute() => _operationFacade.CreateOperationById(_operationType, _bankAccountId, _amount,  _description, _categoryId);
 }

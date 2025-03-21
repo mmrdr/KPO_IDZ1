@@ -20,22 +20,22 @@ public class OperationFacade: IOperationFacade
         _operationRepository = operationRepository;
     }
     
-    public Operation CreateOperationById(OperationType type, Guid bankAccountId, decimal amount, DateTime date,
-        string? description, Guid? categoryId)
+    public Operation CreateOperationById(OperationType type, Guid bankAccountId, decimal amount, string? description,
+        Guid? categoryId)
     {
-        var operation = _operationFactory.Create(type, bankAccountId, amount, date, description, categoryId);
+        var operation = _operationFactory.Create(type, bankAccountId, amount, description, categoryId);
         _operationRepository.Add(operation);
         return operation;
     }
 
     public void CreateFromFile(Operation operation)
     {
-        var e = _operationRepository.GetById(operation.Id);
-        if (e != null)
+        try
         {
+            var e = _operationRepository.GetById(operation.Id);
             _operationRepository.Update(e);
         }
-        else
+        catch (Exception e)
         {
             _operationRepository.Add(operation);
         }
@@ -48,11 +48,26 @@ public class OperationFacade: IOperationFacade
 
     public Operation? GetById(Guid id)
     {
-        return _operationRepository.GetById(id);
+        try
+        {
+            return _operationRepository.GetById(id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return null;
+        }
     }
 
     public void Delete(Guid id)
     {
-        _operationRepository.Delete(id);
+        try
+        {
+            _operationRepository.Delete(id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 }

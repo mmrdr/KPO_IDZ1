@@ -1,6 +1,7 @@
 using FinanceTrackerApp.Domain.Dto;
 using FinanceTrackerApp.Domain.Entities;
 using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace FinanceTrackerApp.Domain.Patterns.Visitor;
 
@@ -33,7 +34,10 @@ public class YamlVisitor: IEntityVisitor, IVisitorAction
             Operations = _operations,
         };
         
-        var s = new SerializerBuilder();
-        return s.Build().Serialize(dto);
+        var s = new SerializerBuilder()
+            .WithNamingConvention(PascalCaseNamingConvention.Instance)
+            .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
+            .Build();
+        return s.Serialize(dto);
     }
 }

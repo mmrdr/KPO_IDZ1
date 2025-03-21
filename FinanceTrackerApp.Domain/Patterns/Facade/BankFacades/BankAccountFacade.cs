@@ -25,12 +25,12 @@ public class BankAccountFacade: IBankAccountFacade
 
     public void CreateFromFile(BankAccount account)
     {
-        var e = _bankAccountRepository.GetById(account.Id);
-        if (e != null)
+        try
         {
-            _bankAccountRepository.Update(e);
+            var e = _bankAccountRepository.GetById(account.Id);
+            _bankAccountRepository.Update(account);
         }
-        else
+        catch (Exception e)
         {
             _bankAccountRepository.Add(account);
         }
@@ -49,24 +49,34 @@ public class BankAccountFacade: IBankAccountFacade
 
     public void IncreaseBalance(Guid id, decimal amount)
     {
-        var account = _bankAccountRepository.GetById(id);
-        if (account == null)
+        try
         {
-            throw new ArgumentException("Account not found");
+            var account = _bankAccountRepository.GetById(id);
+            account.IncreaseBalance(amount);
+            _bankAccountRepository.Update(account);
         }
-        account.IncreaseBalance(amount);
-        _bankAccountRepository.Update(account);
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 
     public void DecreaseBalance(Guid id, decimal amount)
     {
-        var account = _bankAccountRepository.GetById(id);
-        if (account == null)
+        try
         {
-            throw new ArgumentException("Account not found");
+            var account = _bankAccountRepository.GetById(id);
+            account.DecreaseBalance(amount);
+            _bankAccountRepository.Update(account);
         }
-        account.DecreaseBalance(amount);
-        _bankAccountRepository.Update(account);
+        catch (ArgumentOutOfRangeException e)
+        {
+            Console.WriteLine(e.ParamName);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 
     public IEnumerable<BankAccount> GetAll()
@@ -76,11 +86,26 @@ public class BankAccountFacade: IBankAccountFacade
 
     public BankAccount? GetById(Guid id)
     {
-        return _bankAccountRepository.GetById(id);
+        try
+        {
+            return _bankAccountRepository.GetById(id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return null;
+        }
     }
 
     public void Delete(Guid id)
     {
-        _bankAccountRepository.Delete(id);
+        try
+        {
+            _bankAccountRepository.Delete(id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 }
